@@ -35,7 +35,6 @@
             pointer-events: none;
         }
         
-        /* Smooth video fade transition */
         #bg-video {
             transition: opacity 0.5s ease-in-out;
         }
@@ -49,7 +48,7 @@
         <video
             id="bg-video"
             class="absolute inset-0 w-full h-full object-cover translate-y-[17%]"
-            src="https://labs.google/fx/tools/flow/shared/video/a94fea31-b617-4d66-b7da-0d51c2f2d081"
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_115001_bcdaa3b4-03de-47e7-ad63-ae3e392c32d4.mp4"
             muted
             autoplay
             loop
@@ -59,111 +58,129 @@
         ></video>
     </div>
 
-    <nav class="relative z-20 w-full pl-6 pr-6 py-6">
-        <div class="liquid-glass rounded-full px-6 py-3 flex items-center justify-between max-w-5xl mx-auto">
-            <div class="flex items-center gap-8">
-                <div class="flex items-center gap-2 text-white font-semibold text-base sm:text-lg">
-                    <i data-lucide="globe" class="w-5 h-5 sm:w-6 h-6 text-white/90"></i>
-                    <span class="tracking-tight">Nakul's Study Junction</span>
+    <div id="main-interface" class="min-h-screen flex flex-col justify-between hidden relative z-10">
+        <nav class="relative z-20 w-full pl-6 pr-6 py-6">
+            <div class="liquid-glass rounded-full px-6 py-3 flex items-center justify-between max-w-5xl mx-auto">
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-2 text-white font-semibold text-base sm:text-lg">
+                        <i data-lucide="globe" class="w-5 h-5 sm:w-6 h-6 text-white/90"></i>
+                        <span class="tracking-tight">Nakul's Study Junction</span>
+                    </div>
+                    <div class="hidden md:flex items-center gap-6">
+                        <button onclick="openModal('features-modal')" class="text-white/80 hover:text-white transition-colors text-sm font-medium focus:outline-none">Features</button>
+                        <button onclick="openModal('about-modal')" class="text-white/80 hover:text-white transition-colors text-sm font-medium focus:outline-none">About</button>
+                    </div>
                 </div>
-                <div class="hidden md:flex items-center gap-6">
-                    <button onclick="openModal('features-modal')" class="text-white/80 hover:text-white transition-colors text-sm font-medium focus:outline-none">Features</button>
-                    <button onclick="openModal('about-modal')" class="text-white/80 hover:text-white transition-colors text-sm font-medium focus:outline-none">About</button>
+
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 liquid-glass rounded-full py-1 pl-1 pr-3 cursor-pointer group" onclick="openOnboardingModal()">
+                        <img id="nav-avatar" src="" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-white/20">
+                        <span id="nav-username" class="text-xs sm:text-sm font-medium max-w-[100px] truncate">Student</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex md:hidden justify-center gap-6 mt-3 relative z-20 px-6">
+                <button onclick="openModal('features-modal')" class="text-white/60 hover:text-white transition-colors text-xs font-mono uppercase tracking-wider">Features</button>
+                <button onclick="openModal('about-modal')" class="text-white/60 hover:text-white transition-colors text-xs font-mono uppercase tracking-wider">About</button>
+            </div>
+        </nav>
+
+        <main class="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-6 text-center">
+            <h1 style="font-family: 'Instrument Serif', serif;" class="text-5xl md:text-6xl lg:text-7xl text-white mb-2 tracking-tight whitespace-nowrap">
+                Built for the curious
+            </h1>
+            
+            <p class="text-white/60 text-xs font-mono tracking-widest mb-6 uppercase">Select Active Batch Target</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl w-full mb-6">
+                <a href="https://stream.testuk.org/subjects?batchId=69739a4601c3c6e7944edbd1&batchName=Parishram+UP+Board+2027+%28Hindi+Medium%29" class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block">
+                    <div class="text-lg font-semibold mb-1 group-hover:text-amber-400 transition-colors">Parishram</div>
+                    <div class="text-xs text-white/50">UP Board 2027 (Hindi)</div>
+                </a>
+                <a href="https://stream.testuk.org/subjects?batchId=6779345c20fa0756e4a7fd08&batchName=Lakshya+JEE+2027" class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block">
+                    <div class="text-lg font-semibold mb-1 group-hover:text-blue-400 transition-colors">Lakshya JEE</div>
+                    <div class="text-xs text-white/50">JEE 2027</div>
+                </a>
+                <a href="https://stream.testuk.org/subjects?batchId=698de47558bc860709d89653&batchName=PARISHRAM+HUMANITIES+2027+%28Class+12th%29" class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block">
+                    <div class="text-lg font-semibold mb-1 group-hover:text-purple-400 transition-colors">Humanities</div>
+                    <div class="text-xs text-white/50">2027 (Class 12th)</div>
+                </a>
+                <a href="https://stream.testuk.org/subjects?batchId=6960d1d20549bb69d7d7e872&batchName=11th+Jee+Restart+2026" class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block">
+                    <div class="text-lg font-semibold mb-1 group-hover:text-emerald-400 transition-colors">11th Restart JEE</div>
+                    <div class="text-xs text-white/50">JEE Restart 2026</div>
+                </a>
+                <a href="https://stream.testuk.org/subjects?batchId=6779346f920e596fe7f0e247&batchName=Lakshya+NEET+2027" class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block sm:col-span-2 md:col-span-1">
+                    <div class="text-lg font-semibold mb-1 group-hover:text-rose-400 transition-colors">Lakshya NEET</div>
+                    <div class="text-xs text-white/50">NEET 2027</div>
+                </a>
+            </div>
+
+            <div class="max-w-2xl w-full mb-6 px-4">
+                <div class="liquid-glass rounded-xl p-4 border border-white/5 backdrop-blur-md">
+                    <p class="text-sm font-medium tracking-wide text-white/90">
+                        ✨ <span class="text-amber-300">Best Wishes to All Students!</span> Stay focused, manage your time wisely, and stay ultra-curious. Your consistent efforts today will build your massive success tomorrow. Conquer your goals! 🚀🎓
+                    </p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
-                <div class="flex items-center gap-2 liquid-glass rounded-full py-1 pl-1 pr-3 cursor-pointer group relative" onclick="triggerProfileInput()">
-                    <img id="user-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-white/20 group-hover:border-white/50 transition-colors">
-                    <span id="user-display-name" class="text-xs sm:text-sm font-medium max-w-[100px] truncate">Mr. Nakul Hacker</span>
+            <div class="max-w-xl w-full">
+                <form id="email-form" action="https://formspree.io/f/YOUR_FORM_ENDPOINT" method="POST" class="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3" onsubmit="handleEmailSubmit(event)">
+                    <input 
+                        type="email" 
+                        name="email"
+                        required
+                        placeholder="Enter your email for updates" 
+                        class="bg-transparent flex-1 text-white placeholder:text-white/40 text-base focus:outline-none border-none p-0"
+                    />
+                    <button type="submit" class="bg-white rounded-full p-3 text-black hover:bg-white/90 transition-colors flex items-center justify-center">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </form>
+                <p id="form-status" class="text-xs text-emerald-400 mt-2 hidden">Subscribed successfully!</p>
+            </div>
+        </main>
+
+        <footer class="relative z-10 flex justify-center gap-4 pb-8">
+            <button class="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center"><i data-lucide="instagram" class="w-5 h-5"></i></button>
+            <button class="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center"><i data-lucide="twitter" class="w-5 h-5"></i></button>
+            <button class="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center"><i data-lucide="globe" class="w-5 h-5"></i></button>
+        </footer>
+    </div>
+
+    <div id="onboarding-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl">
+        <div class="liquid-glass max-w-md w-full rounded-3xl p-8 text-center border border-white/10 shadow-2xl">
+            <h2 style="font-family: 'Instrument Serif', serif;" class="text-4xl text-white mb-2">Welcome Student</h2>
+            <p class="text-xs font-mono text-white/50 tracking-wider mb-6 uppercase">Initialize Your Access Profile</p>
+            
+            <div class="space-y-5">
+                <div class="flex flex-col items-center gap-2">
+                    <div class="relative w-24 h-24 rounded-full border-2 border-dashed border-white/30 hover:border-white/60 transition-colors flex items-center justify-center cursor-pointer overflow-hidden group bg-white/5" onclick="triggerProfileInput()">
+                        <img id="setup-preview" src="" class="w-full h-full object-cover hidden">
+                        <div id="upload-placeholder" class="flex flex-col items-center text-white/40 group-hover:text-white/80 transition-colors">
+                            <i data-lucide="camera" class="w-6 h-6 mb-1"></i>
+                            <span class="text-[10px] font-mono">UPLOAD PHOTO</span>
+                        </div>
+                    </div>
                     <input type="file" id="profile-upload" class="hidden" accept="image/*" onchange="handleProfileUpload(event)">
                 </div>
-                <button onclick="changeNamePrompt()" class="p-2 liquid-glass rounded-full hover:bg-white/5 transition-colors" title="Change Name">
-                    <i data-lucide="edit-3" class="w-4 h-4 text-white/75"></i>
+
+                <div class="text-left">
+                    <label class="block text-[11px] font-mono text-white/40 uppercase mb-1 tracking-wider pl-2">Student Full Name</label>
+                    <input type="text" id="student-name-input" placeholder="e.g., Nakul Hacker" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 text-sm focus:outline-none focus:border-white/30 transition-colors">
+                </div>
+
+                <button onclick="saveOnboardingProfile()" class="w-full bg-white text-black font-semibold rounded-xl py-3 text-sm hover:bg-neutral-200 transition-colors mt-2">
+                    Grant System Access
                 </button>
             </div>
         </div>
-        
-        <div class="flex md:hidden justify-center gap-6 mt-3 relative z-20 px-6">
-            <button onclick="openModal('features-modal')" class="text-white/60 hover:text-white transition-colors text-xs font-mono uppercase tracking-wider">Features</button>
-            <button onclick="openModal('about-modal')" class="text-white/60 hover:text-white transition-colors text-xs font-mono uppercase tracking-wider">About</button>
-        </div>
-    </nav>
-
-    <main class="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-6 text-center">
-        <h1 
-            style="font-family: 'Instrument Serif', serif;" 
-            class="text-5xl md:text-6xl lg:text-7xl text-white mb-2 tracking-tight whitespace-nowrap"
-        >
-            Built for the curious
-        </h1>
-        
-        <p class="text-white/60 text-xs font-mono tracking-widest mb-6 uppercase">
-            Select Active Batch Target
-        </p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl w-full mb-6">
-            <a href="https://stream.testuk.org/subjects?batchId=69739a4601c3c6e7944edbd1&batchName=Parishram+UP+Board+2027+%28Hindi+Medium%29" 
-               class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block">
-                <div class="text-lg font-semibold mb-1 group-hover:text-amber-400 transition-colors">Parishram</div>
-                <div class="text-xs text-white/50">UP Board 2027 (Hindi)</div>
-            </a>
-            
-            <a href="https://stream.testuk.org/subjects?batchId=6779345c20fa0756e4a7fd08&batchName=Lakshya+JEE+2027" 
-               class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block">
-                <div class="text-lg font-semibold mb-1 group-hover:text-blue-400 transition-colors">Lakshya JEE</div>
-                <div class="text-xs text-white/50">JEE 2027</div>
-            </a>
-
-            <a href="https://stream.testuk.org/subjects?batchId=698de47558bc860709d89653&batchName=PARISHRAM+HUMANITIES+2027+%28Class+12th%29" 
-               class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block">
-                <div class="text-lg font-semibold mb-1 group-hover:text-purple-400 transition-colors">Humanities</div>
-                <div class="text-xs text-white/50">2027 (Class 12th)</div>
-            </a>
-
-            <a href="https://stream.testuk.org/subjects?batchId=6960d1d20549bb69d7d7e872&batchName=11th+Jee+Restart+2026" 
-               class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block">
-                <div class="text-lg font-semibold mb-1 group-hover:text-emerald-400 transition-colors">11th Restart JEE</div>
-                <div class="text-xs text-white/50">JEE Restart 2026</div>
-            </a>
-
-            <a href="https://stream.testuk.org/subjects?batchId=6779346f920e596fe7f0e247&batchName=Lakshya+NEET+2027" 
-               class="liquid-glass rounded-2xl p-5 text-white text-center hover:bg-white/5 transition-all group block sm:col-span-2 md:col-span-1">
-                <div class="text-lg font-semibold mb-1 group-hover:text-rose-400 transition-colors">Lakshya NEET</div>
-                <div class="text-xs text-white/50">NEET 2027</div>
-            </a>
-        </div>
-
-        <div class="max-w-2xl w-full mb-6 px-4">
-            <div class="liquid-glass rounded-xl p-4 border border-white/5 backdrop-blur-md">
-                <p class="text-sm font-medium tracking-wide text-white/90">
-                    ✨ <span class="text-amber-300">Best Wishes to All Students!</span> Stay focused, manage your time wisely, and stay ultra-curious. Your consistent efforts today will build your massive success tomorrow. Conquer your goals! 🚀🎓
-                </p>
-            </div>
-        </div>
-
-        <div class="max-w-xl w-full space-y-4">
-            <div class="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
-                <input 
-                    type="email" 
-                    placeholder="Enter your email for updates" 
-                    class="bg-transparent flex-1 text-white placeholder:text-white/40 text-base focus:outline-none border-none p-0"
-                />
-                <button class="bg-white rounded-full p-3 text-black hover:bg-white/90 transition-colors flex items-center justify-center">
-                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                </button>
-            </div>
-        </div>
-    </main>
+    </div>
 
     <div id="features-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
         <div class="liquid-glass max-w-lg w-full rounded-2xl p-6 relative">
-            <button onclick="closeModal('features-modal')" class="absolute top-4 right-4 text-white/60 hover:text-white transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            <h3 class="text-xl font-bold mb-3 flex items-center gap-2 text-blue-400">
-                <i data-lucide="zap" class="w-5 h-5"></i> Core Portal Features
-            </h3>
+            <button onclick="closeModal('features-modal')" class="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h3 class="text-xl font-bold mb-3 flex items-center gap-2 text-blue-400"><i data-lucide="zap" class="w-5 h-5"></i> Core Portal Features</h3>
             <ul class="text-sm text-white/80 space-y-2 text-left list-disc list-inside">
                 <li>Instant single-click streaming target setup across all flagship structural batches.</li>
                 <li>Highly optimized liquid glass UI ensuring frictionless layout architecture.</li>
@@ -175,29 +192,13 @@
 
     <div id="about-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
         <div class="liquid-glass max-w-lg w-full rounded-2xl p-6 relative">
-            <button onclick="closeModal('about-modal')" class="absolute top-4 right-4 text-white/60 hover:text-white transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            <h3 class="text-xl font-bold mb-3 flex items-center gap-2 text-purple-400">
-                <i data-lucide="info" class="w-5 h-5"></i> About The Junction
-            </h3>
+            <button onclick="closeModal('about-modal')" class="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h3 class="text-xl font-bold mb-3 flex items-center gap-2 text-purple-400"><i data-lucide="info" class="w-5 h-5"></i> About The Junction</h3>
             <p class="text-sm text-white/80 leading-relaxed text-left">
                 Nakul's Study Junction is an elite automated environment engineered to accelerate academic operational tracking. Built with cryptographic dark cinematic semantics, this node bridges active educational data pipelines directly into a unified single-pane operational terminal.
             </p>
         </div>
     </div>
-
-    <footer class="relative z-10 flex justify-center gap-4 pb-8">
-        <button class="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center" aria-label="Instagram">
-            <i data-lucide="instagram" class="w-5 h-5"></i>
-        </button>
-        <button class="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center" aria-label="Twitter">
-            <i data-lucide="twitter" class="w-5 h-5"></i>
-        </button>
-        <button class="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center" aria-label="Website">
-            <i data-lucide="globe" class="w-5 h-5"></i>
-        </button>
-    </footer>
 
     <script>
         lucide.createIcons();
@@ -205,114 +206,87 @@
         const video = document.getElementById('bg-video');
         let fadingOut = false;
         let animationFrameId = null;
+        let globalAvatarData = "";
 
-        // Force browser activation parameters 
         window.addEventListener('DOMContentLoaded', () => {
-            // Load saved user state from local storage if available
+            // Check if profile exists
             const savedName = localStorage.getItem('junction_username');
             const savedAvatar = localStorage.getItem('junction_avatar');
-            if (savedName) document.getElementById('user-display-name').innerText = savedName;
-            if (savedAvatar) document.getElementById('user-avatar').src = savedAvatar;
 
-            video.setAttribute('autoplay', '');
-            video.setAttribute('muted', '');
-            video.setAttribute('playsinline', '');
-            
-            // Backup immediate initiation cascade
-            video.play().then(() => {
-                video.style.opacity = '1';
-            }).catch(() => {
-                // Click anywhere on body fallback for mobile privacy restriction bypass
-                document.body.addEventListener('click', () => {
-                    video.play();
-                    video.style.opacity = '1';
-                }, { once: true });
+            if (savedName && savedAvatar) {
+                document.getElementById('nav-username').innerText = savedName;
+                document.getElementById('nav-avatar').src = savedAvatar;
+                document.getElementById('onboarding-modal').classList.add('hidden');
+                document.getElementById('main-interface').classList.remove('hidden');
+            }
+
+            video.play().then(() => { video.style.opacity = '1'; }).catch(() => {
+                document.body.addEventListener('click', () => { video.play(); video.style.opacity = '1'; }, { once: true });
             });
         });
 
-        function fadeVideo(targetOpacity, duration, callback) {
-            if (animationFrameId) cancelAnimationFrame(animationFrameId);
-            const startOpacity = parseFloat(video.style.opacity) || 0;
-            const opacityDifference = targetOpacity - startOpacity;
-            let startTime = null;
-
-            function animate(timestamp) {
-                if (!startTime) startTime = timestamp;
-                const elapsed = timestamp - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                video.style.opacity = (startOpacity + opacityDifference * progress).toString();
-
-                if (progress < 1) {
-                    animationFrameId = requestAnimationFrame(animate);
-                } else if (callback) {
-                    callback();
-                }
-            }
-            animationFrameId = requestAnimationFrame(animate);
+        // Form Submission Management
+        function handleEmailSubmit(e) {
+            // Standard action behavior allowed if endpoint available
+            const status = document.getElementById('form-status');
+            status.classList.remove('hidden');
         }
 
-        video.addEventListener('canplay', () => {
-            fadeVideo(1, 500);
-        });
-
-        video.addEventListener('timeupdate', () => {
-            if (!video.duration) return;
-            const timeRemaining = video.duration - video.currentTime;
-            if (timeRemaining <= 0.55 && !fadingOut) {
-                fadingOut = true;
-                fadeVideo(0, 500);
-            }
-        });
-
-        video.addEventListener('ended', () => {
-            video.style.opacity = '0';
-            setTimeout(() => {
-                video.currentTime = 0;
-                video.play().then(() => {
-                    fadingOut = false;
-                    fadeVideo(1, 500);
-                }).catch(err => console.error(err));
-            }, 100);
-        });
-
-        // Modal Controls
-        function openModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300);
-        }
-
-        // Profile Update Core Logic
-        function triggerProfileInput() {
-            document.getElementById('profile-upload').click();
-        }
+        // Onboarding Core Systems
+        function triggerProfileInput() { document.getElementById('profile-upload').click(); }
 
         function handleProfileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(e) {
-                const imgData = e.target.result;
-                document.getElementById('user-avatar').src = imgData;
-                localStorage.setItem('junction_avatar', imgData);
+                globalAvatarData = e.target.result;
+                const preview = document.getElementById('setup-preview');
+                preview.src = globalAvatarData;
+                preview.classList.remove('hidden');
+                document.getElementById('upload-placeholder').classList.add('hidden');
             }
             reader.readAsDataURL(file);
         }
 
-        function changeNamePrompt() {
-            const currentName = document.getElementById('user-display-name').innerText;
-            const newName = prompt("Enter Student Name:", currentName);
-            if (newName && newName.trim() !== "") {
-                document.getElementById('user-display-name').innerText = newName.trim();
-                localStorage.setItem('junction_username', newName.trim());
+        function saveOnboardingProfile() {
+            const nameInput = document.getElementById('student-name-input').value.trim();
+            if (!nameInput) { alert("Please input your name."); return; }
+            if (!globalAvatarData) { alert("Please upload a profile picture."); return; }
+
+            localStorage.setItem('junction_username', nameInput);
+            localStorage.setItem('junction_avatar', globalAvatarData);
+
+            document.getElementById('nav-username').innerText = nameInput;
+            document.getElementById('nav-avatar').src = globalAvatarData;
+
+            document.getElementById('onboarding-modal').classList.add('hidden');
+            document.getElementById('main-interface').classList.remove('hidden');
+        }
+
+        function openOnboardingModal() {
+            document.getElementById('student-name-input').value = localStorage.getItem('junction_username') || "";
+            if (localStorage.getItem('junction_avatar')) {
+                globalAvatarData = localStorage.getItem('junction_avatar');
+                const preview = document.getElementById('setup-preview');
+                preview.src = globalAvatarData;
+                preview.classList.remove('hidden');
+                document.getElementById('upload-placeholder').classList.add('hidden');
             }
+            document.getElementById('onboarding-modal').classList.remove('hidden');
+        }
+
+        // Modal Utilities
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
         }
     </script>
 </body>
-                                                                                                   </html>
+</html>
