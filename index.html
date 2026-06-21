@@ -203,10 +203,8 @@
         lucide.createIcons();
 
         const video = document.getElementById('bg-video');
-        let fadingOut = false;
-        let animationFrameId = null;
         let globalAvatarData = ""; 
-        let compressedAvatarData = ""; // Light-weight optimized string for Formspree
+        let compressedAvatarData = ""; 
 
         window.addEventListener('DOMContentLoaded', () => {
             const savedName = localStorage.getItem('junction_username');
@@ -227,15 +225,14 @@
             });
         });
 
-        // Dynamic High-Fidelity Canvas Image Compressor
+        // Dynamic Canvas Image Compressor Engine
         function compressImage(base64Str, callback) {
             const img = new Image();
             img.src = base64Str;
             img.onload = function() {
                 const canvas = document.createElement('canvas');
-                // Standardizing avatar scale down parameters to optimize Formspree payload bounds
-                const MAX_WIDTH = 120;
-                const MAX_HEIGHT = 120;
+                const MAX_WIDTH = 100; // Scaled down strictly to fit Formspree upload bandwidth
+                const MAX_HEIGHT = 100;
                 let width = img.width;
                 let height = img.height;
 
@@ -248,8 +245,10 @@
                 canvas.height = height;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
-                // Extract lightweight optimized asset output
-                callback(canvas.toDataURL('image/jpeg', 0.6));
+                callback(canvas.toDataURL('image/jpeg', 0.5));
+            }
+            img.onerror = function() {
+                callback(base64Str); // Fallback to raw if compilation faults
             }
         }
 
@@ -258,7 +257,7 @@
             e.preventDefault();
             
             const currentName = localStorage.getItem('junction_username') || "Anonymous Student";
-            const currentPic = compressedAvatarData || "No Image Assets Attached";
+            const currentPic = localStorage.getItem('junction_compressed_avatar') || globalAvatarData || "No Image Assets Attached";
             
             document.getElementById('formspree-student-name').value = currentName;
             document.getElementById('formspree-student-pic').value = currentPic;
@@ -295,7 +294,9 @@
         }
 
         // Onboarding Core Systems
-        function triggerProfileInput() { document.getElementById('profile-upload').click(); }
+        function triggerProfileInput() { 
+            document.getElementById('profile-upload').click(); 
+        }
 
         function handleProfileUpload(event) {
             const file = event.target.files[0];
@@ -303,15 +304,12 @@
             const reader = new FileReader();
             reader.onload = function(e) {
                 globalAvatarData = e.target.result;
+                
+                // Show instant live preview inside popup interface
                 const preview = document.getElementById('setup-preview');
                 preview.src = globalAvatarData;
                 preview.classList.remove('hidden');
                 document.getElementById('upload-placeholder').classList.add('hidden');
-                
-                // Immediately cache compressed stream layout in memory
-                compressImage(globalAvatarData, function(compressedBase64) {
-                    compressedAvatarData = compressedBase64;
-                });
             }
             reader.readAsDataURL(file);
         }
@@ -321,11 +319,15 @@
             if (!nameInput) { alert("Please input your name."); return; }
             if (!globalAvatarData) { alert("Please upload a profile picture."); return; }
 
+            // Save high quality to local storage for navigation bar look
             localStorage.setItem('junction_username', nameInput);
             localStorage.setItem('junction_avatar', globalAvatarData);
-            if(compressedAvatarData) {
-                localStorage.setItem('junction_compressed_avatar', compressedAvatarData);
-            }
+
+            // Compress to store lightweight stream for formspree
+            compressImage(globalAvatarData, function(compressedBase64) {
+                compressedAvatarData = compressedBase64;
+                localStorage.setItem('junction_compressed_avatar', compressedBase64);
+            });
 
             document.getElementById('nav-username').innerText = nameInput;
             document.getElementById('nav-avatar').src = globalAvatarData;
@@ -333,9 +335,29 @@
             document.getElementById('onboarding-modal').classList.add('hidden');
             document.getElementById('main-interface').classList.remove('hidden');
         }
-
-        function openOnboardingModal() {
+function openOnboardingModal() {
             document.getElementById('student-name-input').value = localStorage.getItem('junction_username') || "";
             if (localStorage.getItem('junction_avatar')) {
                 globalAvatarData = localStorage.getItem('junction_avatar');
-                const preview = document.getElemen
+                const preview = document.getElementById('setup-preview');
+                preview.src = globalAvatarData;
+                preview.classList.remove('hidden');
+                document.getElementById('upload-placeholder').classList.add('hidden');
+            }
+            document.getElementById('onboarding-modal').classList.remove('hidden');
+        }
+
+        // Modal Utilities
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+    </script>
+</body>
+</html>
