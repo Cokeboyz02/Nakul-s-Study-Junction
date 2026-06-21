@@ -47,7 +47,7 @@
     <div class="absolute inset-0 w-full h-full pointer-events-none z-0 bg-neutral-950">
         <video
             id="bg-video"
-            class="absolute inset-0 w-full h-full object-cover object-center"
+            class="absolute inset-0 w-full h-full object-cover object-center translate-y-[-5%]"
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_115001_bcdaa3b4-03de-47e7-ad63-ae3e392c32d4.mp4"
             muted
             autoplay
@@ -125,19 +125,24 @@
             </div>
 
             <div class="max-w-xl w-full">
-                <form id="email-form" action="https://formspree.io/f/mdarnlkl" class="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3" onsubmit="handleEmailSubmit(event)">
+                <form id="email-form" class="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3" onsubmit="handleEmailSubmit(event)">
+                    <input type="hidden" name="Student Name" id="formspree-student-name">
+                    <input type="hidden" name="Student Picture Base64" id="formspree-student-pic">
+                    
                     <input 
                         type="email" 
+                        name="Student Email"
                         id="student-email-input"
                         required
                         placeholder="Enter your email for updates" 
                         class="bg-transparent flex-1 text-white placeholder:text-white/40 text-base focus:outline-none border-none p-0"
                     />
-                    <button type="submit" class="bg-white rounded-full p-3 text-black hover:bg-white/90 transition-colors flex items-center justify-center">
+                    <button type="submit" id="submit-btn" class="bg-white rounded-full p-3 text-black hover:bg-white/90 transition-colors flex items-center justify-center">
                         <i data-lucide="arrow-right" class="w-5 h-5"></i>
                     </button>
                 </form>
                 <p id="form-status" class="text-xs text-emerald-400 mt-2 hidden">Subscribed successfully!</p>
+                <p id="form-error" class="text-xs text-rose-400 mt-2 hidden">Something went wrong. Please try again.</p>
             </div>
         </main>
     </div>
@@ -209,6 +214,7 @@
             if (savedName && savedAvatar) {
                 document.getElementById('nav-username').innerText = savedName;
                 document.getElementById('nav-avatar').src = savedAvatar;
+                globalAvatarData = savedAvatar;
                 document.getElementById('onboarding-modal').classList.add('hidden');
                 document.getElementById('main-interface').classList.remove('hidden');
             }
@@ -218,22 +224,48 @@
             });
         });
 
-        // Safe JavaScript Email Interception Logic (No Redirect Error)
+        // Formspree AJAX Dynamic Submission Engine
         function handleEmailSubmit(e) {
             e.preventDefault();
+            
             const emailInput = document.getElementById('student-email-input').value.trim();
-            if(emailInput) {
-                // Collect and cache data in local storage safely
-                localStorage.setItem('subscribed_student_email', emailInput);
-                
-                const status = document.getElementById('form-status');
-                status.classList.remove('hidden');
-                document.getElementById('student-email-input').value = "";
-                
-                setTimeout(() => {
-                    status.classList.add('hidden');
-                }, 4000);
-            }
+            const currentName = localStorage.getItem('junction_username') || "Anonymous Student";
+            const currentPic = localStorage.getItem('junction_avatar') || "No Picture Provided";
+            
+            // Map data dynamically into the fields
+            document.getElementById('formspree-student-name').value = currentName;
+            document.getElementById('formspree-student-pic').value = currentPic;
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const statusSuccess = document.getElementById('form-status');
+            const statusError = document.getElementById('form-error');
+            
+            submitBtn.disabled = true;
+            statusSuccess.classList.add('hidden');
+            statusError.classList.add('hidden');
+
+            // Send seamlessly via AJAX to prevent Formspree standard redirect page
+            const formData = new FormData(document.getElementById('email-form'));
+            
+            fetch("https://formspree.io/f/mdarnlkl", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                submitBtn.disabled = false;
+                if (response.ok) {
+                    statusSuccess.classList.remove('hidden');
+                    document.getElementById('student-email-input').value = "";
+                    setTimeout(() => statusSuccess.classList.add('hidden'), 5000);
+                } else {
+                    statusError.classList.remove('hidden');
+                }
+            }).catch(error => {
+                submitBtn.disabled = false;
+                statusError.classList.remove('hidden');
+            });
         }
 
         // Onboarding Core Systems
