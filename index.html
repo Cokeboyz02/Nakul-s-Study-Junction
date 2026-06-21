@@ -51,7 +51,6 @@
             src="https://res.cloudinary.com/durfckxxo/video/upload/v1782059542/Man_typing_on_laptop_202606212155_dlsjke.mp4"
             muted
             autoplay
-            loop
             playsinline
             webkit-playsinline
             style="opacity: 0;"
@@ -417,6 +416,25 @@
             modal.classList.add('opacity-0');
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
+        // --- VIDEO REVERSE SYSTEM ---
+const bgVideo = document.getElementById('bg-video');
+
+if (bgVideo) {
+    // 1. Jab video poori chal jaye, toh use reverse (piche) chalayein
+    bgVideo.addEventListener('ended', () => {
+        bgVideo.playbackRate = -1.0; // Reverse speed set ki
+        bgVideo.play();
+    });
+
+    // 2. Video ke chalte waqt lagatar check karein ki kya woh shuruat par pahunch gayi
+    bgVideo.addEventListener('timeupdate', () => {
+        // Agar video reverse chal rahi hai aur shuruat (0 sec) par aa gayi hai
+        if (bgVideo.playbackRate < 0 && bgVideo.currentTime <= 0.1) {
+            bgVideo.playbackRate = 1.0; // Wapas seedhi speed set ki
+            bgVideo.play();
+        }
+    });
+}
     </script>
 </body>
 </html>
