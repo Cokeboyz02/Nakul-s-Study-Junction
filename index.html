@@ -416,25 +416,42 @@
             modal.classList.add('opacity-0');
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
-        // --- VIDEO REVERSE SYSTEM ---
-const bgVideo = document.getElementById('bg-video');
+        // --- PERFECT VIDEO REVERSE LOOP SYSTEM ---
+        const bgVideo = document.getElementById('bg-video');
+        let isReversing = false;
+        let reverseInterval = null;
 
-if (bgVideo) {
-    // 1. Jab video poori chal jaye, toh use reverse (piche) chalayein
-    bgVideo.addEventListener('ended', () => {
-        bgVideo.playbackRate = -1.0; // Reverse speed set ki
-        bgVideo.play();
-    });
+        if (bgVideo) {
+            // Video khatam hote hi custom reverse loop start hoga
+            bgVideo.addEventListener('ended', () => {
+                if (!isReversing) {
+                    isReversing = true;
+                    bgVideo.pause(); // Standard play pause karenge manual control ke liye
 
-    // 2. Video ke chalte waqt lagatar check karein ki kya woh shuruat par pahunch gayi
-    bgVideo.addEventListener('timeupdate', () => {
-        // Agar video reverse chal rahi hai aur shuruat (0 sec) par aa gayi hai
-        if (bgVideo.playbackRate < 0 && bgVideo.currentTime <= 0.1) {
-            bgVideo.playbackRate = 1.0; // Wapas seedhi speed set ki
-            bgVideo.play();
+                    // Har 40 milliseconds (approx 25fps) par video ko piche lejayein
+                    reverseInterval = setInterval(() => {
+                        if (bgVideo.currentTime <= 0.1) {
+                            // Jaise hi video shuruat par pahuchegi, wapas normal play karein
+                            clearInterval(reverseInterval);
+                            isReversing = false;
+                            bgVideo.playbackRate = 1.0;
+                            bgVideo.play();
+                        } else {
+                            // Video ko frame-by-frame piche dhakelein
+                            bgVideo.currentTime -= 0.04; 
+                        }
+                    }, 40);
+                }
+            });
+
+            // Browser safety ke liye check agar direct playback rate switch support ho jaye
+            bgVideo.addEventListener('timeupdate', () => {
+                if (!isReversing && bgVideo.currentTime >= bgVideo.duration - 0.2) {
+                    // Safe handling agar ended event miss ho jaye
+                    bgVideo.dispatchEvent(new Event('ended'));
+                }
+            });
         }
-    });
-}
     </script>
 </body>
 </html>
